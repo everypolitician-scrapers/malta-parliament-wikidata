@@ -5,6 +5,7 @@ require 'scraperwiki'
 require 'wikidata/fetcher'
 require 'nokogiri'
 require 'open-uri'
+require 'rest-client'
 
 def noko_for(url)
   Nokogiri::HTML(open(url).read) 
@@ -25,3 +26,5 @@ WikiData.ids_from_pages('en', names).each_with_index do |p, i|
   end
   ScraperWiki.save_sqlite([:id], data)
 end
+warn RestClient.post ENV['MORPH_REBUILDER_URL'], {} if ENV['MORPH_REBUILDER_URL']
+
